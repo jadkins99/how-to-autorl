@@ -8,7 +8,7 @@ import stable_baselines3
 from omegaconf import DictConfig, OmegaConf
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.monitor import Monitor
-
+import sbx
 __copyright__ = "Copyright 2022, Theresa Eimer"
 __license__ = "3-clause BSD"
 
@@ -24,7 +24,9 @@ def train_sb3(cfg: DictConfig):
     if cfg.reward_curves:
         env = Monitor(env, ".")
 
-    agent_class = getattr(stable_baselines3, cfg.algorithm.agent_class)
+    # agent_class = getattr(stable_baselines3, cfg.algorithm.agent_class)
+    agent_class = getattr(sbx, cfg.algorithm.agent_class)
+    
 
     if cfg.load:
         model = agent_class.load(cfg.load, env=env, **cfg.algorithm.model_kwargs)
